@@ -26,7 +26,7 @@ var firebaseConfig = {
 @NgModule({
   declarations: [
     AppComponent,
-    CreditCardInfoComponent
+    CreditCardInfoComponent,
   ],
   imports: [
     BrowserModule,

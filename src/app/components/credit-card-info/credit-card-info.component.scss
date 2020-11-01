@@ -1,5 +1,10 @@
 
-.form-fields{
+.back {
+    display: grid;
+    justify-content: end;
+    margin: 1rem;
+}
+.form-fields {
     min-width: 400px;
 }
 .card-header {

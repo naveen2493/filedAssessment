@@ -10,12 +10,11 @@ export class AppComponent {
   title = 'filedAssessment';
   homePage: boolean = true;
 
-  constructor(public router: Router) {
-
-  }
+  constructor(public router: Router) {}
 
   goToCreditCard() {
     this.homePage = false;
+    // Angular router to navigate to the new page (CreditCardPage)
     this.router.navigate(['/credit-card'])
   }
 }

@@ -8,17 +8,20 @@ import { AbstractControl, ValidationErrors } from '@angular/forms';
 import { PaymentServiceService } from 'src/app/services/payment-service.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogBoxComponent } from '../dialog-box/dialog-box.component';
+import { Router } from '@angular/router';
+import { CreditCard } from 'src/app/models/credit-card';
 
+// Custom Validators to Validate given Expire Date is Not Past Date
 export class ExpireDateValidator {
   static cannotPastExpire(control: AbstractControl): ValidationErrors | null {
     if (control.value <= new Date()) {
       return { cannotPastExpire: true };
     }
-
     return null;
   }
 }
 
+// Custom Validators to Validate given Amount is Not Zero
 export class NoZeroValidator {
   static noZero(control: AbstractControl): ValidationErrors | null {
     if (control.value <= 0) {
@@ -42,7 +45,10 @@ export class CreditCardInfoComponent implements OnInit {
   securityCode: FormControl;
   amount: FormControl;
 
-  constructor(public paymentServiceService: PaymentServiceService, public dialog: MatDialog) { }
+  constructor(
+    public router: Router,
+    public paymentServiceService: PaymentServiceService,
+    public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.validateInputs();
@@ -61,6 +67,7 @@ export class CreditCardInfoComponent implements OnInit {
     this.amount = new FormControl("", [Validators.required, NoZeroValidator.noZero]);
   }
 
+  // Created the ReactiveFormModule
   createFormGroup() {
     this.creditCardForm = new FormGroup({
       creditCardNumber: this.creditCardNumber,
@@ -71,16 +78,24 @@ export class CreditCardInfoComponent implements OnInit {
     });
   }
 
-  submitPayment() {
-    let param = {};
-    param["creditCardNumber"] = this.creditCardNumber.value;
-    param["cardholder"] = this.cardholder.value;
-    param["expirationDate"] = this.expirationDate.value;
-    param["securityCode"] = this.securityCode.value;
-    param["amount"] = this.amount.value;
+  // Go back to AppComponent
+  goToBack() {
+    this.router.navigate([''])
+  }
 
-    this.paymentServiceService.post(param).then(
+  // Prepare the JSON params and Sent to PaymentServiceService Post request
+  submitPayment() {
+    let params = {};
+
+    params["creditCardNumber"] = this.creditCardNumber.value;
+    params["cardholder"] = this.cardholder.value;
+    params["expirationDate"] = this.expirationDate.value;
+    params["securityCode"] = this.securityCode.value;
+    params["amount"] = this.amount.value;
+
+    this.paymentServiceService.post(params).then(
       data => {
+        this.goToBack();
         const dialogRef = this.dialog.open(DialogBoxComponent, {
           width: '250px',
           data: { dialogType: 'Success', text: "Credit Card details are submitted successfully" }
@@ -95,6 +110,7 @@ export class CreditCardInfoComponent implements OnInit {
       );
   }
 
+  // Get a confirmation from user to submit
   goToCreditCard() {
     const dialogRef = this.dialog.open(DialogBoxComponent, {
       width: '250px',
@@ -103,6 +119,7 @@ export class CreditCardInfoComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
+        // User gave Ok to post the Payment request
         this.submitPayment();
       }
     });
