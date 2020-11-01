@@ -1,0 +1,16 @@
+<div *ngIf="homePage;else creditCardPage" class="main">
+  <mat-card>
+    <div class="row">
+      <img src="../assets/icon.jpg" alt="filed_icon">
+    </div>
+    <div class="row">
+      Go to Credit card page
+      <button mat-raised-button (click)="goToCreditCard()" class="w-100 my-1">
+        Click
+      </button>
+    </div>
+  </mat-card>
+</div>
+<ng-template #creditCardPage>
+  <router-outlet></router-outlet>
+</ng-template>

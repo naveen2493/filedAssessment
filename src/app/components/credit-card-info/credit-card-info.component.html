@@ -1,0 +1,67 @@
+<div class="credit-card-form">
+    <form [formGroup]="creditCardForm" class="example-form">
+        <mat-card class="pb-0">
+            <mat-card-header class="card-header">
+                <mat-card-title class="m-0">
+                    Credit Card Details
+                </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <div class="row">
+                    <mat-form-field class="form-fields">
+                        <input type="text" matInput placeholder="Credit Card Number" formControlName="creditCardNumber"
+                            required />
+                        <mat-error
+                            *ngIf="creditCardNumber.errors && (creditCardNumber.dirty || creditCardNumber.touched)">
+                            <mat-error *ngIf="creditCardNumber.errors.minlength || creditCardNumber.errors.maxlength">
+                                Card number should be in 16 digits Numbers</mat-error>
+                            <mat-error *ngIf="creditCardNumber.errors.required">Card number is required</mat-error>
+                            <mat-error *ngIf="creditCardNumber.errors.pattern">Letters are not allowed</mat-error>
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="form-fields">
+                        <input type="text" matInput placeholder="Card holder" formControlName="cardholder" required />
+                        <mat-error *ngIf="cardholder.errors && (cardholder.dirty || cardholder.touched)">
+                            <mat-error *ngIf="cardholder.errors.required">Card holder Name is required</mat-error>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="row">
+                    <mat-form-field class="m-2 form-fields">
+                        <input class="ml-2" formControlName="expirationDate" matInput placeholder="Expiration Date"
+                            (click)="fromPicker.open()" [matDatepicker]="fromPicker" required />
+                        <mat-datepicker-toggle matSuffix [for]="fromPicker"></mat-datepicker-toggle>
+                        <mat-datepicker #fromPicker></mat-datepicker>
+                        <mat-error *ngIf="expirationDate.errors && (expirationDate.dirty || expirationDate.touched)">
+                            <mat-error *ngIf="expirationDate?.errors?.cannotPastExpire">Expiration Date is required
+                            </mat-error>
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="form-fields">
+                        <input type="text" matInput placeholder="Security Code" formControlName="securityCode" required />
+                        <mat-error *ngIf="securityCode.errors && (securityCode.dirty || securityCode.touched)">
+                            <mat-error *ngIf="securityCode.errors.minlength || securityCode.errors.maxlength">
+                                Security Code should be 3 digit</mat-error>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="row">
+                    <mat-form-field class="form-fields">
+                        <input type="text" matInput placeholder="Amount" formControlName="amount" required />
+                        <mat-error *ngIf="amount.errors && (amount.dirty || amount.touched)">
+                            <mat-error *ngIf="amount.errors.required">Amount is required</mat-error>
+                            <mat-error *ngIf="amount?.errors?.noZero">Amount should not be 0</mat-error>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </form>
+    <div class="submit">
+        <button mat-raised-button [disabled]="!creditCardForm.valid" (click)="goToCreditCard()" class="w-100 my-1">
+            Submit
+        </button>
+    </div>
+</div>

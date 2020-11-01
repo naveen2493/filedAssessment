@@ -1,0 +1,53 @@
+
+.form-fields{
+    min-width: 400px;
+}
+.card-header {
+    margin: 1rem;
+    border-bottom: 1.5px solid #dedbdb;
+}
+
+.credit-card-form {
+    text-align: center;
+    margin: 2rem;
+}
+
+form {
+    justify-content: center;
+    display: flex;
+}
+
+mat-card {
+    width: 80%;
+    background: #181784;
+}
+
+mat-card-content {
+    padding: 1rem;
+    // color: black;
+
+}
+
+mat-form-field {
+    margin: 1rem;
+}
+
+mat-card {
+    // background: white;
+    // color: black;
+}
+
+.mat-button-disabled {
+    // background: opacity($color: #000000);
+}
+
+.submit {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+
+    button {
+        color: white;
+        background: green;
+    }
+}
